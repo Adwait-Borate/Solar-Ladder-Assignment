@@ -22,17 +22,20 @@ body, html, #root {
   height: 100vh;
   background: linear-gradient(135deg, #4b40ee 0%, #87e2e8 100%);
   color: rgb(240, 236, 236);
+  padding: 20px;
+  text-align: center;
 }
 
 .home-container h1 {
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   margin-bottom: 1rem;
 }
 
 .home-container p {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   margin-bottom: 2rem;
   opacity: 0.9;
+  max-width: 600px;
 }
 
 /* Button styles */
@@ -60,14 +63,16 @@ button:active {
 
 /* Canvas editor styles */
 .editor-container {
-  padding: 20px;
+  padding: 10px;
   background-color: #d1f397;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .editor-header {
   background: rgb(161, 230, 248);
-  padding: 10px 10px;
+  padding: 10px;
   border-radius: 8px;
   margin-bottom: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -76,25 +81,35 @@ button:active {
 .editor-header h2 {
   margin: 0 0 10px 0;
   color: #333;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+}
+
+.editor-header p {
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  word-break: break-word;
 }
 
 .toolbar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
-  padding: 15px;
+  padding: 10px;
   background: rgb(242, 156, 243);
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .toolbar button {
   background-color: #667eea;
   color: rgb(10, 10, 10);
-  padding: 10px 16px;
-  font-size: 14px;
+  padding: 8px 12px;
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .toolbar button:hover {
@@ -102,19 +117,22 @@ button:active {
 }
 
 .toolbar input[type="color"] {
-  width: 50px;
+  width: 45px;
   height: 38px;
   border: 2px solid #ddd;
   border-radius: 6px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .toolbar input[type="text"] {
   padding: 8px 12px;
   border: 2px solid #ddd;
   border-radius: 6px;
-  font-size: 14px;
-  width: 150px;
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+  width: 120px;
+  min-width: 80px;
+  flex-shrink: 1;
 }
 
 .toolbar input[type="text"]:focus {
@@ -149,21 +167,29 @@ button:active {
 
 .canvas-wrapper {
   background: rgb(116, 67, 237);
-  padding: 20px;
+  padding: 15px;
   border-radius: 8px;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
 }
 
 canvas {
   border: 2px solid #40e81e;
   border-radius: 4px;
   display: block !important;
+  max-width: 100%;
+  height: auto !important;
 }
 
 .canvas-container {
   position: relative !important;
   display: inline-block !important;
+  max-width: 100%;
 }
 
 .status-indicator {
@@ -190,4 +216,110 @@ canvas {
   padding: 40px;
   font-size: 18px;
   color: #666;
+}
+
+/* Responsive Media Queries */
+
+/* Tablets and smaller laptops */
+@media (max-width: 1024px) {
+  .editor-container {
+    padding: 10px;
+  }
+
+  .toolbar {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .toolbar button {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .toolbar input[type="text"] {
+    width: 100px;
+  }
+
+  .canvas-wrapper {
+    padding: 10px;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .editor-container {
+    padding: 5px;
+  }
+
+  .editor-header {
+    padding: 8px;
+  }
+
+  .toolbar {
+    gap: 5px;
+    padding: 8px;
+    justify-content: center;
+  }
+
+  .toolbar button {
+    padding: 6px 8px;
+    font-size: 0.7rem;
+    margin: 2px;
+  }
+
+  .toolbar input[type="text"] {
+    width: 80px;
+    font-size: 0.7rem;
+  }
+
+  .toolbar input[type="color"] {
+    width: 35px;
+    height: 32px;
+  }
+
+  .toolbar .save-btn,
+  .toolbar .new-canvas-btn {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .canvas-wrapper {
+    padding: 8px;
+    overflow-x: scroll;
+  }
+
+  .status-indicator {
+    display: block;
+    margin-top: 8px;
+    margin-left: 0;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .home-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .home-container p {
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .editor-header h2 {
+    font-size: 1rem;
+  }
+
+  .toolbar button {
+    padding: 5px 6px;
+    font-size: 0.65rem;
+  }
+
+  .toolbar input[type="text"] {
+    width: 70px;
+  }
 }

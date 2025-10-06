@@ -14,6 +14,31 @@ function CanvasEditor() {
   const [textValue, setTextValue] = useState('Hello World');
   const [isSaved, setIsSaved] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [canvasSize, setCanvasSize] = useState({ width: 1620, height: 500 });
+
+  // Calculate responsive canvas size
+  useEffect(() => {
+    const updateCanvasSize = () => {
+      const maxWidth = window.innerWidth - 60; // Account for padding
+      const maxHeight = window.innerHeight - 300; // Account for header and toolbar
+      
+      let width = 1620;
+      let height = 500;
+      
+      // Scale down for smaller screens
+      if (maxWidth < 1620) {
+        width = Math.max(320, maxWidth);
+        height = Math.max(300, Math.min(500, maxHeight));
+      }
+      
+      setCanvasSize({ width, height });
+    };
+
+    updateCanvasSize();
+    window.addEventListener('resize', updateCanvasSize);
+    
+    return () => window.removeEventListener('resize', updateCanvasSize);
+  }, []);
 
   // Initialize Fabric.js canvas
   useEffect(() => {
@@ -36,8 +61,8 @@ function CanvasEditor() {
       // Initialize canvas with the canvas element
       const canvas = new fabric.Canvas(canvasRef.current, {
         backgroundColor: '#f6f5f5ff',
-        width: 1620,
-        height: 500,
+        width: canvasSize.width,
+        height: canvasSize.height,
         selection: true
       });
 
@@ -75,7 +100,7 @@ function CanvasEditor() {
         fabricCanvasRef.current = null;
       }
     };
-  }, [id]);
+  }, [id, canvasSize]);
 
   // Load canvas from Firestore
   const loadCanvasData = async (canvas) => {
